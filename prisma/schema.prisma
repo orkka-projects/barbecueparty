@@ -24,5 +24,14 @@ model Item {
   name      String
   bbqId     String
   bbq       BarbecueEvent @relation(fields: [bbqId], references: [id], onDelete: Cascade)
+  claims    Claim[]
   createdAt DateTime      @default(now())
+}
+
+model Claim {
+  id        String   @id @default(cuid())
+  guestName String
+  itemId    String
+  item      Item     @relation(fields: [itemId], references: [id], onDelete: Cascade)
+  createdAt DateTime @default(now())
 }
