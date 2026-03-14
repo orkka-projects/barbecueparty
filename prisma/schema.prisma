@@ -6,3 +6,23 @@ datasource db {
   provider = "postgresql"
   url      = env("DATABASE_URL")
 }
+
+model BarbecueEvent {
+  id          String   @id @default(cuid())
+  inviteCode  String   @unique
+  name        String
+  date        DateTime
+  address     String
+  organizerId String
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  items       Item[]
+}
+
+model Item {
+  id        String        @id @default(cuid())
+  name      String
+  bbqId     String
+  bbq       BarbecueEvent @relation(fields: [bbqId], references: [id], onDelete: Cascade)
+  createdAt DateTime      @default(now())
+}
