@@ -7,35 +7,37 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model Bbq {
-  id              String   @id
-  organizerCookie String
-  name            String
-  date            DateTime
-  address         String
-  createdAt       DateTime @default(now())
-  items           Item[]
+model BarbecueEvent {
+  id          String   @id @default(cuid())
+  inviteCode  String   @unique
+  name        String
+  date        DateTime
+  address     String
+  organizerId String
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  items       Item[]
 
-  @@index([organizerCookie])
+  @@index([organizerId])
 }
 
 model Item {
-  id        String   @id
-  bbqId     String
+  id        String        @id @default(cuid())
   name      String
-  createdAt DateTime @default(now())
-  bbq       Bbq      @relation(fields: [bbqId], references: [id], onDelete: Cascade)
+  bbqId     String
+  bbq       BarbecueEvent @relation(fields: [bbqId], references: [id], onDelete: Cascade)
   claims    Claim[]
+  createdAt DateTime      @default(now())
 
   @@index([bbqId])
 }
 
 model Claim {
-  id        String   @id
-  itemId    String
+  id        String   @id @default(cuid())
   guestName String
-  createdAt DateTime @default(now())
+  itemId    String
   item      Item     @relation(fields: [itemId], references: [id], onDelete: Cascade)
+  createdAt DateTime @default(now())
 
   @@index([itemId])
 }

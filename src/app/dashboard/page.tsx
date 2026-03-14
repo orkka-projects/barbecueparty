@@ -42,8 +42,8 @@ export default async function DashboardPage() {
   }
 
   // Fetch all BBQs for this organizer, including items and claims
-  const bbqs = await prisma.bbq.findMany({
-    where: { organizerCookie },
+  const bbqs = await prisma.barbecueEvent.findMany({
+    where: { organizerId: organizerCookie },
     include: {
       items: {
         include: {
