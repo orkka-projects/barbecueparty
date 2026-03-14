@@ -7,22 +7,25 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model Bbq {
-  id        String   @id @default(cuid())
-  name      String
-  date      DateTime
-  address   String
-  createdAt DateTime @default(now())
-  items     Item[]
+model BarbecueEvent {
+  id          String   @id @default(cuid())
+  inviteCode  String   @unique
+  name        String
+  date        DateTime
+  address     String
+  organizerId String
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  items       Item[]
 }
 
 model Item {
-  id        String   @id @default(cuid())
+  id        String        @id @default(cuid())
   name      String
   bbqId     String
-  bbq       Bbq      @relation(fields: [bbqId], references: [id], onDelete: Cascade)
+  bbq       BarbecueEvent @relation(fields: [bbqId], references: [id], onDelete: Cascade)
   claims    Claim[]
-  createdAt DateTime @default(now())
+  createdAt DateTime      @default(now())
 }
 
 model Claim {
