@@ -6,3 +6,29 @@ datasource db {
   provider = "postgresql"
   url      = env("DATABASE_URL")
 }
+
+model Bbq {
+  id        String   @id @default(cuid())
+  name      String
+  date      DateTime
+  address   String
+  createdAt DateTime @default(now())
+  items     Item[]
+}
+
+model Item {
+  id        String   @id @default(cuid())
+  name      String
+  bbqId     String
+  bbq       Bbq      @relation(fields: [bbqId], references: [id], onDelete: Cascade)
+  claims    Claim[]
+  createdAt DateTime @default(now())
+}
+
+model Claim {
+  id        String   @id @default(cuid())
+  guestName String
+  itemId    String
+  item      Item     @relation(fields: [itemId], references: [id], onDelete: Cascade)
+  createdAt DateTime @default(now())
+}
