@@ -17,6 +17,8 @@ model BarbecueEvent {
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
   items       Item[]
+
+  @@index([organizerId])
 }
 
 model Item {
@@ -26,6 +28,8 @@ model Item {
   bbq       BarbecueEvent @relation(fields: [bbqId], references: [id], onDelete: Cascade)
   claims    Claim[]
   createdAt DateTime      @default(now())
+
+  @@index([bbqId])
 }
 
 model Claim {
@@ -34,4 +38,6 @@ model Claim {
   itemId    String
   item      Item     @relation(fields: [itemId], references: [id], onDelete: Cascade)
   createdAt DateTime @default(now())
+
+  @@index([itemId])
 }
