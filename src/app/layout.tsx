@@ -1,9 +1,10 @@
 import type { Metadata } from "next";
 import "./globals.css";
+import { Navbar } from "@/components/layout/navbar";
 
 export const metadata: Metadata = {
   title: "BarbecueParty",
-  description: "Built with Orkka",
+  description: "Organize BBQ parties with friends — no signup required.",
 };
 
 export default function RootLayout({
@@ -13,7 +14,10 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body>{children}</body>
+      <body className="min-h-screen bg-amber-50">
+        <Navbar />
+        {children}
+      </body>
     </html>
   );
 }
